@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class main {
+public class Main {
     private static Graph graph;
     private static Scanner scanner = new Scanner(System.in);
 
@@ -13,7 +13,7 @@ public class main {
         // หลังจากสร้างกราฟเสร็จสมบูรณ์ ค่อยเข้าสู่ลูปเมนูหลัก
         while (true) {
             System.out.println("\n--- Minimum Spanning Tree Menu ---");
-            System.out.println("1. Show All Possible Spanning Trees");
+            System.out.println("1. Check if the inputted graph is a Spanning Tree");
             System.out.println("2. Find MST using Kruskal's Algorithm");
             System.out.println("3. Find MST using Prim's Algorithm");
             System.out.println("4. Exit");
@@ -24,9 +24,15 @@ public class main {
 
             switch (choice) {
                 case 1:
-                    // ย้ายการแสดง Spanning Tree ทั้งหมดมาไว้ที่เมนู 1
-                    SpanningTreeFinder finder = new SpanningTreeFinder();
-                    finder.findAll(graph);
+                    // ตรวจสอบว่าเป็น Spanning Tree หรือไม่
+                    System.out.println("\n--- Spanning Tree Check ---");
+                    if (graph.isSpanningTree()) {
+                        System.out.println(" Status: The inputted graph is a Spanning Tree.");
+                        System.out.println("   (Reason: It is connected and has exactly V-1 edges with no cycles).");
+                    } else {
+                        System.out.println(" Status: The inputted graph is *NOT* a Spanning Tree.");
+                        System.out.println("   (Reason: It might contain cycles or does not have exactly V-1 edges).");
+                    }
                     break;
                 case 2:
                     KruskalMST kruskal = new KruskalMST();
