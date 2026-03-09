@@ -1,8 +1,17 @@
+package Infix;
 import java.util.*;
 
-public class InfixToPrefix {
+public class Prefix extends Expression{
 
-    public static List<String> infixToPrefix(List<String> tokens) {
+    private List<String> prefixTokens;
+
+    public Prefix(List<String> infix){
+        super(infix);
+        this.prefixTokens = transform(infix);
+    }
+
+    @Override
+    protected List<String> transform(List<String> tokens) {
 
         List<String> prefix = new ArrayList<>();
         Stack<String> operatorStack = new Stack<>();
@@ -11,12 +20,12 @@ public class InfixToPrefix {
 
         for (String token : tokens) {
 
-            if (isNumber(token)) {
+            if (ExpressionValidator.isNumber(token)) {
                 prefix.add(token);
             } else {
 
                 while (!operatorStack.isEmpty() &&
-                        precedence(operatorStack.peek()) > precedence(token)) {
+                        ExpressionValidator.precedence(operatorStack.peek()) > ExpressionValidator.precedence(token)) {
 
                     prefix.add(operatorStack.pop());
                 }
@@ -34,16 +43,7 @@ public class InfixToPrefix {
         return prefix;
     }
 
-    public static boolean isNumber(String token) {
-        return token.matches("\\d+");
+    public List<String> getPrefixTokens(){
+        return this.prefixTokens;
     }
-
-    public static int precedence(String op) {
-        if (op.equals("+") || op.equals("-")) return 1;
-        if (op.equals("*") || op.equals("/")) return 2;
-        return 0;
-    }
-
-
-    
 }
