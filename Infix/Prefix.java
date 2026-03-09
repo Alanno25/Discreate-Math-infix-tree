@@ -15,22 +15,20 @@ public class Prefix extends Expression{
 
         List<String> prefix = new ArrayList<>();
         Stack<String> operatorStack = new Stack<>();
+        List<String> copyTokens = new ArrayList<>(tokens);
 
-        Collections.reverse(tokens);
+        Collections.reverse(copyTokens);
 
-        for (String token : tokens) {
-
-            if (ExpressionValidator.isNumber(token)) {
-                prefix.add(token);
-            } else {
-
-                while (!operatorStack.isEmpty() &&
-                        ExpressionValidator.precedence(operatorStack.peek()) > ExpressionValidator.precedence(token)) {
+        for (String token : copyTokens) {
+            if (ExpressionValidator.isOperator(token)) {
+                 while (!operatorStack.isEmpty() &&
+                        ExpressionValidator.precedence(operatorStack.peek()) >= ExpressionValidator.precedence(token)) {
 
                     prefix.add(operatorStack.pop());
                 }
-
                 operatorStack.push(token);
+            } else {
+                prefix.add(token);
             }
         }
 
@@ -45,5 +43,15 @@ public class Prefix extends Expression{
 
     public List<String> getPrefixTokens(){
         return this.prefixTokens;
+    }
+
+    @Override
+    public String toString(){
+        String res = "";
+        for (String token : prefixTokens) {
+            res += token + " ";
+        }
+
+        return res;
     }
 }

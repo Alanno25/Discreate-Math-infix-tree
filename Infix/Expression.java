@@ -15,4 +15,12 @@ public abstract class Expression {
     public List<String> getInfixTokens(){
         return this.infixTokens;
     }
+
+    public String getInfixString(){
+        String res = "";
+        for (String token : infixTokens) {
+            res += token + " ";
+        }
+        return res;
+    }
 }

@@ -17,18 +17,16 @@ public class Postfix extends Expression{
         Stack<String> operatorStack = new Stack<>();
 
         for (String token : tokens) {
-
-            if (ExpressionValidator.isNumber(token)) {
-                postfix.add(token);
-            } else {
-
-                while (!operatorStack.isEmpty() &&
+            if (ExpressionValidator.isOperator(token)) {
+                 while (!operatorStack.isEmpty() &&
                         ExpressionValidator.precedence(operatorStack.peek()) >= ExpressionValidator.precedence(token)) {
 
                     postfix.add(operatorStack.pop());
                 }
 
                 operatorStack.push(token);
+            } else {
+                postfix.add(token);
             }
         }
 
@@ -43,13 +41,12 @@ public class Postfix extends Expression{
         return this.postfixTokens;
     }
 
-    // public static void main(String[] args) {
-    //     Scanner sc = new Scanner(System.in);
-    //     String input = sc.nextLine();
-    //     String[] tokens = input.split(" ");
-    //     List<String> infix = Arrays.asList(tokens);
-    //     List<String> postfix = infixToPostfix(infix);
-    //     System.out.println(postfix);
-    //     sc.close();
-    // }
+    @Override
+    public String toString(){
+       String res = "";
+        for (String token : postfixTokens) {
+            res += token + " ";
+        }
+        return res;
+    }
 }
