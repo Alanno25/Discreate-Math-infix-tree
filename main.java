@@ -28,10 +28,9 @@ public class Main {
                     System.out.println("\n--- Spanning Tree Check ---");
                     if (graph.isSpanningTree()) {
                         System.out.println(" Status: The inputted graph is a Spanning Tree.");
-                        System.out.println("   (Reason: It is connected and has exactly V-1 edges with no cycles).");
                     } else {
                         System.out.println(" Status: The inputted graph is *NOT* a Spanning Tree.");
-                        System.out.println("   (Reason: It might contain cycles or does not have exactly V-1 edges).");
+                        System.out.println("   (Graph has cycles).");
                     }
                     break;
                 case 2:
