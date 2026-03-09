@@ -9,12 +9,27 @@ public class ExpressionParser {
     }
 
     public static boolean isExpressionValid(List<String> exp){
+        int numOperator = 0;
+        int numOperand = 0;
         for (String opr : exp) {
-            if (!ExpressionValidator.isNumber(opr)
-                && !ExpressionValidator.isOperator(opr)) {
+            boolean isNum = ExpressionValidator.isNumber(opr);
+            boolean isOpr = ExpressionValidator.isOperator(opr);
+            boolean isVar = ExpressionValidator.isVariable(opr);
+            
+            if (!isNum && !isOpr && !isVar) {
                 return false;
             }
+            if (isNum || isVar) {
+                numOperand += 1;
+            }
+            else {
+                numOperator += 1;
+            }
         }
+
+        if (ExpressionValidator.isOperator(exp.getLast())) return false;
+        if (numOperator != numOperand - 1) return false;
+
         return true;
     }
 }

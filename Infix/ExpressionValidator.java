@@ -5,6 +5,10 @@ public class ExpressionValidator {
         return token.matches("^[-+]?\\d+(\\.\\d+)?$");
     }
 
+    public static boolean isVariable(String token){
+        return token.matches("^[a-zA-Z]+$");
+    }
+
     public static boolean isOperator(String opr){
         for (Operator i : Operator.values()){
             if (opr.equals(i.getOperator())){
