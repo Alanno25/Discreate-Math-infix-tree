@@ -1,11 +1,8 @@
 import java.util.*;
-
 public class Graph {
     public int V;
     public List<Edge> edges;
     public List<List<Edge>> adj;
-    
-    // เพิ่มตัวแปรสำหรับเก็บ Mapping ชื่อกับ Index
     public Map<String, Integer> nameToIndex;
     public String[] indexToName;
 
@@ -30,21 +27,16 @@ public class Graph {
         
         Edge edge = new Edge(src, dest, weight, srcName, destName, edgeName);
         edges.add(edge);
-        
-        // กราฟแบบ Undirected
         adj.get(src).add(new Edge(src, dest, weight, srcName, destName, edgeName));
         adj.get(dest).add(new Edge(dest, src, weight, destName, srcName, edgeName));
     }
-
     public boolean isConnected() {
         if (V == 0) return true;
         boolean[] visited = new boolean[V];
         Queue<Integer> queue = new LinkedList<>();
-        
         queue.add(0);
         visited[0] = true;
         int count = 1;
-
         while (!queue.isEmpty()) {
             int u = queue.poll();
             for (Edge e : adj.get(u)) {
@@ -57,7 +49,6 @@ public class Graph {
         }
         return count == V;
     }
-
     public boolean isSpanningTree() {
         return isConnected() && edges.size() == V - 1;
     }

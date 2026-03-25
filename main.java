@@ -6,31 +6,28 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("=== Welcome to Graph & Minimum Spanning Tree Program ===");
-
-        // บังคับให้ผู้ใช้กรอกข้อมูลกราฟตั้งแต่เริ่มโปรแกรม
         inputGraph();
-
-        // หลังจากสร้างกราฟเสร็จสมบูรณ์ ค่อยเข้าสู่ลูปเมนูหลัก
+        
         while (true) {
-            System.out.println("\n--- Minimum Spanning Tree Menu ---");
+            System.out.println("\n--- Minimum Spanning Tree & Path Menu ---");
             System.out.println("1. Check if the inputted graph is a Spanning Tree");
             System.out.println("2. Find MST using Kruskal's Algorithm");
             System.out.println("3. Find MST using Prim's Algorithm");
-            System.out.println("4. Exit");
+            System.out.println("4. Find Shortest Path using Dijkstra's Algorithm");
+            System.out.println("5. Exit");
             System.out.print("Select an option: ");
 
             int choice = scanner.nextInt();
-            scanner.nextLine(); // เคลียร์ขึ้นบรรทัดใหม่
+            scanner.nextLine();
 
             switch (choice) {
                 case 1:
-                    // ตรวจสอบว่าเป็น Spanning Tree หรือไม่
                     System.out.println("\n--- Spanning Tree Check ---");
                     if (graph.isSpanningTree()) {
-                        System.out.println(" Status: The inputted graph is a Spanning Tree.");
+                        System.out.println("✅ Status: The inputted graph is a Spanning Tree.");
                     } else {
-                        System.out.println(" Status: The inputted graph is *NOT* a Spanning Tree.");
-                        System.out.println("   (Graph has cycles).");
+                        System.out.println("❌ Status: The inputted graph is *NOT* a Spanning Tree.");
+                        System.out.println("   (Graph has cycles or edges != V-1).");
                     }
                     break;
                 case 2:
@@ -42,7 +39,7 @@ public class Main {
                     String startNode = scanner.nextLine().trim();
 
                     if (!graph.nameToIndex.containsKey(startNode)) {
-                        System.out.println(" Error: Vertex not found!");
+                        System.out.println("⚠️ Error: Vertex not found!");
                     } else {
                         int startVertex = graph.nameToIndex.get(startNode);
                         PrimMST prim = new PrimMST();
@@ -50,6 +47,22 @@ public class Main {
                     }
                     break;
                 case 4:
+                    // ---------------- เพิ่มส่วนของ Dijkstra ----------------
+                    System.out.print("\nEnter starting vertex (e.g., v0): ");
+                    String startNodeDijkstra = scanner.nextLine().trim();
+                    System.out.print("Enter destination vertex (e.g., v5): ");
+                    String endNodeDijkstra = scanner.nextLine().trim();
+
+                    if (!graph.nameToIndex.containsKey(startNodeDijkstra) || !graph.nameToIndex.containsKey(endNodeDijkstra)) {
+                        System.out.println("⚠️ Error: Vertex not found! Please check your input.");
+                    } else {
+                        int sVertex = graph.nameToIndex.get(startNodeDijkstra);
+                        int eVertex = graph.nameToIndex.get(endNodeDijkstra);
+                        DijkstraShortestPath dijkstra = new DijkstraShortestPath();
+                        dijkstra.findPath(graph, sVertex, eVertex);
+                    }
+                    break;
+                case 5:
                     System.out.println("Exiting program...");
                     scanner.close();
                     System.exit(0);
@@ -102,13 +115,12 @@ public class Main {
             }
             scanner.nextLine();
 
-            // ตรวจสอบความถูกต้องของกราฟ
             if (tempGraph.isConnected()) {
                 graph = tempGraph;
-                System.out.println("\n Graph is successfully connected and initialized.");
-                break; // หลุดออกจากลูปเพื่อไปที่เมนูหลัก
+                System.out.println("\n✅ Graph is successfully connected and initialized.");
+                break;
             } else {
-                System.out.println("\n Error: The graph is disconnected. Please enter a connected graph.\n");
+                System.out.println("\n❌ Error: The graph is disconnected. Please enter a connected graph.\n");
             }
         }
     }
